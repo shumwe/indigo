@@ -1,0 +1,34 @@
+version: 2.1
+
+jobs:
+    hello-setup:
+        docker:
+            - image: python:3.7-alpine3.11
+        steps:
+            - checkout
+            - run:
+                name: "Hello"
+                command: |
+                    echo "Hello from Bravin"
+    
+    install-dependancies:
+        docker:
+            - image: python:3.7-alpine3.11
+        steps:
+            - checkout
+            - restore_cache:
+                keys: [frontend-build]
+            - run:
+                name: Build front-end
+                command: |
+                  pip install -r requirements.txt
+
+workflows:
+  progress:
+    jobs:
+      - hello-setup
+      - install-dependancies:
+          requires: [hello-setup]
+
+
+    
