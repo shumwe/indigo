@@ -24,13 +24,15 @@
           <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
             <ul class="navbar-nav ms-5 me-auto mb-2 mb-lg-0 fw-bold">
               <li class="nav-item">
-                <a class="nav-link active text-primary" aria-current="page" href="#">Home</a>
+                <a class="nav-link active text-primary" aria-current="page" href="{% url 'landing' %}">Home</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link text-primary" href="#">Link</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link text-primary" href="#">Disabled</a>
+              <li class="nav-item btn-group">
+                <a class="nav-link text-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" href="#">Explore</a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                  {% for path in paths %}
+                  <li><a class="dropdown-item" type="button" href="{% url 'topics' path.path_id %}"> {{path.name}} </a></li>
+                  {% endfor %}
+                </ul>
               </li>
             </ul>
 

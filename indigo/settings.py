@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'crispy_forms',
     "crispy_bootstrap5",
+    'taggit',
+    'hitcount',
     'accounts',
     'core',
 ]
@@ -69,6 +71,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'core.context_processors.get_paths',
             ],
         },
     },
@@ -134,6 +137,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
+TAGGIT_CASE_INSENSITIVE = True
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
