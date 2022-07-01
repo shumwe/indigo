@@ -21,7 +21,8 @@ jobs:
             - run:
                 name: Build front-end
                 command: |
-                  pip install -r requirements.txt
+                  pip install --trusted-host pypi.python.org --no-cache-dir -r requirements.txt
+                  echo "Done"
 
 workflows:
   progress:
