@@ -35,12 +35,18 @@
             </ul>
 
             <ul class="navbar-nav mb-2 mb-lg-0">
+              {% if user.is_authenticated %}
+              <li class="nav-item pe-2">
+                <a class="nav-link " href="#profile"><em class="bi bi-person-circle"></em></a>
+              </li>
+              {% else %}
                 <li class="nav-item pe-2">
                   <a class="nav-link btn btn-primary" href="{% url 'account_login' %}">Login</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link btn btn-success" href="{% url 'account_signup' %}">Get Started</a>
                 </li>
+                {% endif %}
               </ul>
           </div>
         </div>
