@@ -35,11 +35,24 @@
                 </ul>
               </li>
             </ul>
-
             <ul class="navbar-nav mb-2 mb-lg-0">
               {% if user.is_authenticated %}
               <li class="nav-item pe-2">
-                <a class="nav-link " href="#profile"><em class="bi bi-person-circle"></em></a>
+                <div class="collapse navbar-collapse" id="mynav">
+                  <div class="dropdown">
+                    <a href="#" class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <em class="fas fa-user-circle"></em> {{ request.user.username }}
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+    
+                      <a href="{% url 'profile' user.username %}" class="dropdown-item"> Profile</a>
+                      {% if user.is_tenant %}
+                      <a href="{% url 'core:my_mails' user.tenants.rented_unit.building.slug user.username %}" class="dropdown-item text-center"><em class="fa fa-envelope"></em></a>
+                      {% endif %}
+                      <a href="{% url 'account_logout' %}" class="dropdown-item" type="button">Logout</a>
+                    </div>
+                  </div>    
+                </div>
               </li>
               {% else %}
                 <li class="nav-item pe-2">

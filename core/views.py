@@ -5,7 +5,10 @@ from core.models import Tutorial, Topic, Path
 
 
 def landing(request):
-    return render(request, 'core/index.html')
+    top = Tutorial.objects.order_by('-hit_count_generic__hits')[:1]
+    top_12 = Tutorial.objects.order_by('-hit_count_generic__hits')[:12]
+    context = {'top': top, 'top_12': top_12}
+    return render(request, 'core/index.html', context)
 
 def topics(request, path_id):
     path = Path.objects.get(path_id=path_id)
@@ -30,7 +33,14 @@ class TutorialDetailView(HitCountDetailView):
     template_name = 'core/tutorial_page.html'
     context_object_name = 'tutorial'
     slug_field = 'slug'
+    slug_url_kwarg = 'slug'
     count_hit = True
+    
+    """def get_queryset(self):
+        return Tutorial.objects.get(
+            topic__path__path_id=self.kwargs['path_id'],
+            topic__slug=self.kwargs['topic_slug'],
+        )"""
     
     def get_context_data(self, **kwargs):
         context = super(TutorialDetailView, self).get_context_data(**kwargs)

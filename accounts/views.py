@@ -9,7 +9,7 @@ def profile(request, username):
         is_owner = True
     else:
         is_owner = False
-    tutorials = Tutorial.objects.filter(author=user)
+    tutorials = Tutorial.objects.filter(author=user)[:5]
     
     context = {'owner': user, 'is_owner': is_owner, 'tutorials': tutorials}
     return render(request, 'accounts/profile.html', context)

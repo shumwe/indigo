@@ -98,7 +98,13 @@
         Recent Articles
       </div>
       <div class="card-body">
-        TODO:
+        <div class="list-group list-group-light">
+          {% for tutorial in tutorials %}
+          <a href="{{tutorial.get_absolute_url}}" type="button" class="list-group-item list-group-item-action px-3 border-0" aria-current="true">
+            <span class="text-primary">Cras justo odio</span><em class="ps-3 bi bi-eye"> count</em>
+          </a>
+          {% endfor %}
+        </div>
       </div>
 
     </div>

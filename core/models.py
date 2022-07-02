@@ -6,6 +6,7 @@ from django.contrib.contenttypes.fields import GenericRelation
 from django.utils.text import slugify
 import string
 import random
+from django.urls import reverse
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
@@ -41,7 +42,7 @@ class Topic(models.Model):
         verbose_name = "Topic"
         verbose_name_plural = "Topics"
 
-class Tutorial(models.Model):
+class Tutorial(models.Model, HitCountMixin):
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE, related_name="topics")
     title = models.CharField(max_length=100)
     slug = models.SlugField(unique=True, max_length=110, blank=True, null=True)
@@ -54,7 +55,15 @@ class Tutorial(models.Model):
     
     def __str__(self):
         return f"{self.title}"
+    
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.title)
         return super(Tutorial, self).save(*args, **kwargs)
+    
+    def get_absolute_url(self):
+        return reverse('tutorial', kwargs={
+            'path_id': self.topic.path.path_id,
+            'topic_slug': self.topic.slug,
+            'slug': self.slug            
+        })
