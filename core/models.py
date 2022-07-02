@@ -46,6 +46,7 @@ class Tutorial(models.Model, HitCountMixin):
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE, related_name="topics")
     title = models.CharField(max_length=100)
     slug = models.SlugField(unique=True, max_length=110, blank=True, null=True)
+    featured_image = models.ImageField(upload_to="featured_images/", default="featured_images/featured.jpg" )
     content = models.TextField()
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     tags = TaggableManager()

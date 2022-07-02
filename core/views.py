@@ -5,7 +5,7 @@ from core.models import Tutorial, Topic, Path
 
 
 def landing(request):
-    top = Tutorial.objects.order_by('-hit_count_generic__hits')[:1]
+    top = Tutorial.objects.order_by('-hit_count_generic__hits')[:2]
     top_12 = Tutorial.objects.order_by('-hit_count_generic__hits')[:12]
     context = {'top': top, 'top_12': top_12}
     return render(request, 'core/index.html', context)

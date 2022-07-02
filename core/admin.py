@@ -11,4 +11,4 @@ class TopicAdmin(admin.ModelAdmin):
 
 @admin.register(Tutorial)
 class TutorialAdmin(admin.ModelAdmin):
-    list_display = ['topic', 'title', 'slug',]
+    list_display = ['title', 'topic', 'slug',]

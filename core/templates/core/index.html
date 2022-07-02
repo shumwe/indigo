@@ -3,26 +3,56 @@
 {% block content %}
 
  <div class="container mt-4">
-    {% if top %}
-    {% for article in top %}
-    <div class="p-5 my-4 bg-light rounded-3">
-        <span class="text-muted">
-            <em class="bi bi-tags-fill"></em>
-            {{article.tags.all|join:", "}}
-        </span>
-      <h3> {{article.title}} </h3>
-      <p class="lead"> {{article.content|truncatewords:50}} </p>
-      <p><a href="{{article.get_absolute_url}}" class="btn btn-outline-success btn-lg">More</a></p>
-    </div>
-    {% endfor %}
-    {% endif %}
+     <div class="row mb-5">
+        {% if top %}
+        {% for article in top %}
+        <div class="col-md-6 card mb-3 me-2 rounded-3" style="max-width: 540px;">
+            <div class="row g-0">
+              <div class="col-4">
+                <img src="{{article.featured_image.url}}" class="card-img-top h-100 " alt="featured_image">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                    <em class="bi bi-tags-fill"></em>
+                    {% for tag in article.tags.all %}
+                    <span class="badge bg-secondary me-2 mb-1 rounded-2"> {{tag.name}} </span>
+                    {% endfor %}
+                    <a href="{{article.get_absolute_url}}" class="text-decoration-none">
+                        <h5 class="card-title">{{article.title}}</h5>
+                        <p class="card-text text-dark">{{article.content|truncatewords:40}}</p>
+                        <p class="card-text">
+                            <small class="text-muted"> {{article.created|naturaltime}} </small></p>
+                    </a>
+                    <a type="button" class="btn btn-outline-dark" href="">
+                        continue reading <em class="bi bi-arrow-right"></em>
+                    </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+          {% endif %}
+     </div>  
 
   <div class="row g-3">
+      <h3 class="fw-bolder mb-2"> Explore what others are reading 👁</h3>
       {% for article in top_12 %}
-      <div class="col-md-6 col-lg-4 col-xl-3">
-          <h3> {{ article.title }} </h3>
-          <p> {{ article.content|truncatewords:20 }} </p>
-          <p><a href="{{article.get_absolute_url}}" class="btn btn-success">Learn More &raquo;</a></p>
+      <div class="col-md-6 col-lg-4 col-xl-3 me-3 card" style="width: 18rem;">
+        <img src="{{article.featured_image.url}}" class="card-img-top" alt="featured image">
+        <div class="card-body">
+            <a href="{{article.get_absolute_url}}" class="text-decoration-none">
+                <h5 class="card-title fw-bolder">{{ article.title }}</h5>
+                <em class="me-2 bi bi-tags"></em>
+                {% for tag in article.tags.all %}
+                <span class="badge bg-secondary">{{tag.name}}</span>
+                {% endfor %}
+                <p class="card-text text-dark">
+                    {{ article.content|truncatewords:20 }}
+                </p>
+            </a>
+            <a type="button" href="{{article.get_absolute_url}}" class="mt-3 btn btn-outline-dark">
+                continue reading <em class="bi bi-arrow-right"></em></a>
+        </div>
       </div>
       {% endfor %}
 
