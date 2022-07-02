@@ -3,7 +3,6 @@ from django.views.generic.list import ListView
 from hitcount.views import HitCountDetailView
 from core.models import Tutorial, Topic, Path
 
-
 def landing(request):
     top = Tutorial.objects.order_by('-hit_count_generic__hits')[:2]
     top_12 = Tutorial.objects.order_by('-hit_count_generic__hits')[:12]
@@ -13,6 +12,7 @@ def landing(request):
 def topics(request, path_id):
     path = Path.objects.get(path_id=path_id)
     path_topics = Topic.objects.filter(path=path)
+    
     
     context = {
         'path': path, 'topics': path_topics
@@ -35,12 +35,6 @@ class TutorialDetailView(HitCountDetailView):
     slug_field = 'slug'
     slug_url_kwarg = 'slug'
     count_hit = True
-    
-    """def get_queryset(self):
-        return Tutorial.objects.get(
-            topic__path__path_id=self.kwargs['path_id'],
-            topic__slug=self.kwargs['topic_slug'],
-        )"""
     
     def get_context_data(self, **kwargs):
         context = super(TutorialDetailView, self).get_context_data(**kwargs)

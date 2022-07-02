@@ -1,5 +1,5 @@
 from django.db import models
-from django.db import models
+from django.db.models import Sum
 from taggit.managers import TaggableManager
 from hitcount.models import HitCountMixin, HitCount
 from django.contrib.contenttypes.fields import GenericRelation
@@ -41,6 +41,12 @@ class Topic(models.Model):
     class Meta:
         verbose_name = "Topic"
         verbose_name_plural = "Topics"
+        
+    @property
+    def topic_hits(self):
+        get_hits = Tutorial.objects.filter(topic=self.pk).values('hit_count_generic__hits')
+        views = sum(item['hit_count_generic__hits'] for item in get_hits)
+        return views
 
 class Tutorial(models.Model, HitCountMixin):
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE, related_name="topics")
