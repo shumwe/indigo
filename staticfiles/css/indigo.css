@@ -1,0 +1,11 @@
+.article {
+    margin-bottom: 4rem;
+  }
+  .article-title {
+    margin-bottom: .25rem;
+    font-size: 2.5rem;
+  }
+  .article-meta {
+    margin-bottom: 1.25rem;
+    color: #727272;
+  }

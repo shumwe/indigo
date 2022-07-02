@@ -24,3 +24,17 @@ def tutorials_by_topic(request, topic_slug):
         'topic': topic, 'tutorials': tutorials,
     }
     return render(request, 'core/tutorial_list.html', context)
+
+class TutorialDetailView(HitCountDetailView):
+    model = Tutorial
+    template_name = 'core/tutorial_page.html'
+    context_object_name = 'tutorial'
+    slug_field = 'slug'
+    count_hit = True
+    
+    def get_context_data(self, **kwargs):
+        context = super(TutorialDetailView, self).get_context_data(**kwargs)
+        context.update({
+            'popular': Tutorial.objects.order_by('-hit_count_generic__hits')[:3],
+        })
+        return context

@@ -1,19 +1,27 @@
 {% extends 'base.html' %}
+{% load humanize %}
+{% load hitcount_tags %}
 
 {% block content %}
 <div class="container mb-5 mt-5">
 
-  <ul class="list-group list-group-light mb-3">
-    <li class="list-group-item">
-      <h5 class="fw-bold">Our company starts its operations</h5>
-      <p class="text-muted mb-2 fw-bold">11 March 2020</p>
-      <p class="text-muted mb-0">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit
-        necessitatibus adipisci, ad alias, voluptate pariatur officia
-        repellendus repellat inventore fugit perferendis totam dolor
-        voluptas et corrupti distinctio maxime corporis optio?
-      </p>
+  <ul class="list-group list-group-light list-group-flush mb-3">
+    {% if tutorials %}
+    {% for tutorial in tutorials %}
+    <li class="list-group-item mb-2">
+      <a href="{% url 'tutorial' tutorial.slug %}" class="text-decoration-none">
+        <h5 class="fw-bold">{{tutorial.title}}</h5>
+        <p class="text-muted mb-2 fw-bold"> {{tutorial.created|naturaltime}} </p>
+        <p class="text-muted mb-0">
+          {{ tutorial.content|truncatewords:35 }}
+        </p>
+      </a>
+      <span><em class="pe-2 bi bi-eye"></em>{% get_hit_count for tutorial %}<span>
     </li>
+    {% endfor %}
+    {% else %}
+    <p> Nothing to display </p>
+    {% endif %}
 
   </ul>
   <a class="btn btn-outline-dark btn-rounded w-100" href="#" role="button" data-ripple-color="dark">Pagination</a>

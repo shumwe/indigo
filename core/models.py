@@ -6,6 +6,8 @@ from django.contrib.contenttypes.fields import GenericRelation
 from django.utils.text import slugify
 import string
 import random
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 class Path(models.Model):
     name = models.CharField(max_length=30)
@@ -44,6 +46,7 @@ class Tutorial(models.Model):
     title = models.CharField(max_length=100)
     slug = models.SlugField(unique=True, max_length=110, blank=True, null=True)
     content = models.TextField()
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     tags = TaggableManager()
     created = models.DateTimeField(auto_now=True)
     updated = models.DateTimeField(auto_now_add=True)

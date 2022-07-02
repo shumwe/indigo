@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block metadescription %} Profile {% endblock %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<section>
+    <div class="container py-5">
+  
+      <div class="row">
+        <div class="col-lg-4">
+          <div class="card mb-4">
+            <div class="card-body text-center">
+              <img src="{{owner.avatar.url}}" alt="{{owner.username}}'s avatar" class="rounded-circle img-fluid" style="width: 150px;">
+              <h5 class="my-3">{{owner.username}}</h5>
+              <div>
+                <a href="#" class="btn btn-outline-primary" >Update Profile</a>
+                </div>
+              </div>
+              </div>   
+
+        <div class="card mb-3 mb-lg-0">
+            <div class="card-body text-center p-0">
+              <ul class="list-group list-group-flush rounded-3">
+                <li class="list-group-item">
+                  <span> My articles: [article_count] </span>
+                </li>
+                <li class="list-group-item">
+                  <span> Total views <em class="bi bi-eye"></em>: [view_count] </span>
+                </li>
+                
+              </ul>
+            </div>
+          </div>
+        </div>
+        
+<div class="col-lg-8">
+
+  <div class="card mb-4">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-sm-3">
+          <p class="mb-0">Full Name</p>
+        </div>
+        <div class="col-sm-9">
+          <p class="text-muted mb-0">{{owner.first_name}} {{owner.last_name}}</p>
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-sm-3">
+          <p class="mb-0">Email</p>
+        </div>
+        <div class="col-sm-9">
+          {% if is_owner %}
+          <p class="text-muted mb-0">{{owner.email}}</p>
+          {% else %}
+          <p class="text-muted mb-0">******hidden</p>
+          {% endif %}
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-sm-3">
+          <p class="mb-0">Phone</p>
+        </div>
+        <div class="col-sm-9">
+          {% if is_owner %}
+          {% if owner.phone %}
+          <p class="text-muted mb-0">{{owner.phone}}</p>
+          {% else %}
+          <p class="text-muted mb-0">Not set</p>
+          {% endif %}
+          {% else %}
+          <p class="text-muted mb-0">******hidden</p>
+          {% endif %}
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-sm-3">
+          <p class="mb-0">Location</p>
+        </div>
+        <div class="col-sm-9">
+          {% if owner.location %}
+          <p class="text-muted mb-0">{{owner.location}}</p>
+          {% else %}
+          <p class="text-muted mb-0">Not set</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <div class="card text-center">
+      <div class="card-header">
+        Recent Articles
+      </div>
+      <div class="card-body">
+        TODO:
+      </div>
+
+    </div>
+  </div>
+</div>
+</section>
+{% endblock %}
