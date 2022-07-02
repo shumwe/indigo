@@ -20,6 +20,7 @@ def topics(request, path_id):
     return render(request, 'core/topics.html', context)
 
 def tutorials_by_topic(request, topic_slug):
+    #TODO: pagination
     topic = Topic.objects.get(slug=topic_slug)
     tutorials = Tutorial.objects.filter(topic=topic)
     

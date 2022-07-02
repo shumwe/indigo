@@ -1,7 +1,6 @@
 {% extends "base.html" %}
-{% load i18n %}
-{% block metadescription %} Profile {% endblock %}
-{% load crispy_forms_tags %}
+{% load i18n %}}
+{% load hitcount_tags %}
 
 {% block content %}
 
@@ -12,11 +11,15 @@
         <div class="col-lg-4">
           <div class="card mb-4">
             <div class="card-body text-center">
-              <img src="{{owner.avatar.url}}" alt="{{owner.username}}'s avatar" class="rounded-circle img-fluid" style="width: 150px;">
+              <img src="{{owner.profile.avatar.url}}" alt="{{owner.username}}'s avatar" class="rounded-circle img-fluid" style="width: 150px;">
               <h5 class="my-3">{{owner.username}}</h5>
+              {% if user.is_authenticated %}
+              {% if user.username == owner.username %}
               <div>
-                <a href="#" class="btn btn-outline-primary" >Update Profile</a>
-                </div>
+                <a href="{% url 'profile-settings' %}" class="btn btn-outline-primary" >Update Profile</a>
+              </div>
+              {% endif %}
+              {% endif %}
               </div>
               </div>   
 
@@ -101,7 +104,7 @@
         <div class="list-group list-group-light">
           {% for tutorial in tutorials %}
           <a href="{{tutorial.get_absolute_url}}" type="button" class="list-group-item list-group-item-action px-3 border-0" aria-current="true">
-            <span class="text-primary">Cras justo odio</span><em class="ps-3 bi bi-eye"> count</em>
+            <span class="text-primary">{{tutorial.title}}</span><em class="ps-3 bi bi-eye">  {% get_hit_count for tutorial %}</em>
           </a>
           {% endfor %}
         </div>
