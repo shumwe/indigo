@@ -6,8 +6,8 @@
 <div class="container mb-5 mt-5">
     <h3 class="text-center fw-bolder m-4"> {{topic.name}} Tutorials </h3>
   <ul class="list-group list-group-light list-group-flush mb-3">
-    {% if tutorials %}
-    {% for tutorial in tutorials %}
+    {% if page_obj %}
+    {% for tutorial in page_obj %}
     <li class="list-group-item mb-2">
       <a href="{{tutorial.get_absolute_url}}" class="text-decoration-none">
         <h5 class="fw-bold">{{tutorial.title}}</h5>
@@ -24,6 +24,21 @@
     {% endif %}
 
   </ul>
-  <a class="btn btn-outline-dark btn-rounded w-100" href="#" role="button" data-ripple-color="dark">Pagination</a>
+  <div class="pagination justify-content-center">
+    <span class="page-link text-center">
+      {% if page_obj.has_previous %}
+      <a class="me-2 btn btn-outline-primary" href="?page=1"> &laquo; first </a>
+      <a class="me-2 btn btn-outline-primary" href="?page={{page_obj.previous_page_number}}">previous</a>
+      {% endif %}
+      <span class="current btn btn-outline-light text-dark">
+        page {{page_obj.number}} of {{page_obj.paginator.num_pages}}.
+      </span>
+      {% if page_obj.has_next %}
+      <a class="ms-2 me-2 btn btn-outline-primary" href="?page={{page_obj.next_page_number}}">next</a>
+      <a class="btn btn-outline-primary" href="?page={{page_obj.paginator.num_pages}}">last &raquo;</a>
+      {% endif %}
+    </span>
+  </div>
+
 </div>
 {% endblock %}
