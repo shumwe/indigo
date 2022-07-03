@@ -9,7 +9,7 @@
       <article class="article">
         <h2 class="article-title"> {{tutorial.title}} </h2>
         <p class="article-meta"> {{tutorial.created|naturaltime}} <a href="#" class="pe-1"> {{tutorial.author}} </a></p>
-        {{tutorial.content}}
+        {{tutorial.content|safe}}
       </article>
     <!--
         <nav class="blog-pagination" aria-label="Pagination">

@@ -37,18 +37,22 @@
             </ul>
             <ul class="navbar-nav mb-2 mb-lg-0">
               {% if user.is_authenticated %}
+
+              <li class="nav-item btn-group">
+                <a class="nav-link text-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" href="#">Explore</a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                  <li><a class="dropdown-item" type="button" href="{% url 'create-tutorial' %}"> Add tutorial </a></li>
+                </ul>
+              </li>
+
               <li class="nav-item pe-2">
                 <div class="collapse navbar-collapse" id="mynav">
                   <div class="dropdown">
-                    <a href="#" class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a href="#" class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown">
                       <em class="fas fa-user-circle"></em> {{ request.user.username }}
                     </a>
                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-    
                       <a href="{% url 'profile' user.username %}" class="dropdown-item"> Profile</a>
-                      {% if user.is_tenant %}
-                      <a href="{% url 'core:my_mails' user.tenants.rented_unit.building.slug user.username %}" class="dropdown-item text-center"><em class="fa fa-envelope"></em></a>
-                      {% endif %}
                       <a href="{% url 'account_logout' %}" class="dropdown-item" type="button">Logout</a>
                     </div>
                   </div>    

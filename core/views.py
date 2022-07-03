@@ -6,7 +6,7 @@ from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-
+from django_summernote.widgets import SummernoteWidget
 
 def landing(request):
     top = Tutorial.objects.order_by('-hit_count_generic__hits')[:2]
@@ -55,6 +55,15 @@ class CreateTutorialView(LoginRequiredMixin, CreateView):
     fields = ['topic', 'title', 'featured_image', 'content', 'tags', 
                   'draft']
     template_name = 'core/create_tutorial.html'
+    
+    def get_form(self, form_class=None):
+        if form_class is None:
+            form_class = self.get_form_class()
+            form = super(CreateTutorialView, self).get_form(form_class)
+            form.fields['content'].widget = SummernoteWidget(
+                attrs={'summernote': {'width': '100%', 'height': '400px'}}
+            )
+            return form
     
     def form_valid(self, form):
         form.instance.author = self.request.user
