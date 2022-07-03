@@ -10,9 +10,13 @@ def profile(request, username):
         is_owner = True
     else:
         is_owner = False
-    tutorials = Tutorial.objects.filter(author=user)[:5]
+    tutorials = Tutorial.objects.filter(author=user)
+    latest_5 = tutorials[:5]
+    get_viewset = tutorials.values('hit_count_generic__hits')
+    total_views = sum(item['hit_count_generic__hits'] for item in get_viewset)
     
-    context = {'owner': user, 'is_owner': is_owner, 'tutorials': tutorials}
+    context = {'tutorials': tutorials, 'owner': user, 'is_owner': is_owner,
+               'latest_5': latest_5, 'total_views': total_views}
     return render(request, 'accounts/profile.html', context)
 
 def profile_settings(request):

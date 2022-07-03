@@ -1,12 +1,15 @@
-from django.shortcuts import render
-from django.views.generic.list import ListView
-from hitcount.views import HitCountDetailView
-from core.models import Tutorial, Topic, Path
-from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
-from django.views.generic.edit import CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.paginator import Paginator
+from django.shortcuts import render
+from django.urls import reverse
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
+from django.views.generic.list import ListView
 from django_summernote.widgets import SummernoteWidget
+from hitcount.views import HitCountDetailView
+
+from core.models import Path, Topic, Tutorial
+
 
 def landing(request):
     top = Tutorial.objects.order_by('-hit_count_generic__hits')[:2]
@@ -68,4 +71,26 @@ class CreateTutorialView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super(CreateTutorialView, self).form_valid(form)
+
+class UpdateTutorialView(LoginRequiredMixin, UpdateView):
+    model = Tutorial
+    fields = ['topic', 'title', 'featured_image', 'content', 'tags', 
+                  'draft']
+    template_name = 'core/update_tutorial.html'
+
+    def get_form(self, form_class=None):
+        if form_class is None:
+            form_class = self.get_form_class()
+            form = super(UpdateTutorialView, self).get_form(form_class)
+            form.fields['content'].widget = SummernoteWidget(
+                attrs={'summernote': {'width': '100%', 'height': '400px'}}
+            )
+            return form
+
+class DeleteTutorialView(LoginRequiredMixin, DeleteView):
+    model = Tutorial
+    #success_url = reverse_lazy('profile', args=(self.request.user))
+    template_name = 'core/delete_tutorial_confirm.html'
     
+    def get_success_url(self, **kwargs):
+        return reverse("profile", kwargs={'username': self.request.user.username})

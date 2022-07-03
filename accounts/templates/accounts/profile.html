@@ -27,10 +27,10 @@
             <div class="card-body text-center p-0">
               <ul class="list-group list-group-flush rounded-3">
                 <li class="list-group-item">
-                  <span> My articles: [article_count] </span>
+                  <span> Total articles: <em class="ms-2 me-1 bi bi-book"></em> {{tutorials.count}} </span>
                 </li>
                 <li class="list-group-item">
-                  <span> Total views <em class="bi bi-eye"></em>: [view_count] </span>
+                  <span> Total views: <em class="ms-2 me-1 bi bi-eye"></em> {{total_views}} </span>
                 </li>
                 
               </ul>
@@ -102,11 +102,28 @@
       </div>
       <div class="card-body">
         <div class="list-group list-group-light">
-          {% for tutorial in tutorials %}
-          <a href="{{tutorial.get_absolute_url}}" type="button" class="list-group-item list-group-item-action px-3 border-0" aria-current="true">
-            <span class="text-primary">{{tutorial.title}}</span><em class="ps-3 bi bi-eye">  {% get_hit_count for tutorial %}</em>
-          </a>
+          <div class="container">
+            <div class="row">
+              {% for tutorial in latest_5 %}
+              <div class="col-8">
+                <a href="{{tutorial.get_absolute_url}}" type="button" class="col-6 list-group-item list-group-item-action px-3 border-0" aria-current="true">
+                  <span class="text-primary">{{tutorial.title}}</span><em class="ps-3 bi bi-eye">  {% get_hit_count for tutorial %}</em>
+                </a>
+              </div>
+              <div class="col-4">
+                <a class="col-6 text-decoration-none me-2" href="{% url 'update-tutorial' tutorial.slug %}" type="button" title="Edit {{tutorial.title}}">
+                  <em class="text-success bi bi-pencil"></em>
+                </a>
+                <a class="col-6 me-2" href="{% url 'delete-tutorial' tutorial.slug %}" type="button" title="Delete {{tutorial.title}}">
+                  <em class="text-danger bi bi-trash"></em>
+                </a>
+              </div>
+              <hr />
+
           {% endfor %}
+            </div>
+          </div>
+
         </div>
       </div>
 
