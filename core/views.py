@@ -3,6 +3,10 @@ from django.views.generic.list import ListView
 from hitcount.views import HitCountDetailView
 from core.models import Tutorial, Topic, Path
 from django.core.paginator import Paginator
+from django.contrib.auth.decorators import login_required
+from django.views.generic.edit import CreateView
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 
 def landing(request):
     top = Tutorial.objects.order_by('-hit_count_generic__hits')[:2]
@@ -13,9 +17,7 @@ def landing(request):
 def topics(request, path_id):
     path = Path.objects.get(path_id=path_id)
     path_topics = Topic.objects.filter(path=path)
-    
-    
-    
+        
     context = {
         'path': path, 'topics': path_topics
     }
@@ -23,7 +25,7 @@ def topics(request, path_id):
 
 def tutorials_by_topic(request, topic_slug):
     topic = Topic.objects.get(slug=topic_slug)
-    tutorials = Tutorial.objects.filter(topic=topic)
+    tutorials = Tutorial.objects.filter(draft=False, topic=topic)
     paginator = Paginator(tutorials, 12)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -47,3 +49,14 @@ class TutorialDetailView(HitCountDetailView):
             'popular': Tutorial.objects.order_by('-hit_count_generic__hits')[:3],
         })
         return context
+
+class CreateTutorialView(LoginRequiredMixin, CreateView):
+    model = Tutorial
+    fields = ['topic', 'title', 'featured_image', 'content', 'tags', 
+                  'draft']
+    template_name = 'core/create_tutorial.html'
+    
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super(CreateTutorialView, self).form_valid(form)
+    

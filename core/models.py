@@ -56,6 +56,7 @@ class Tutorial(models.Model, HitCountMixin):
     content = models.TextField()
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     tags = TaggableManager()
+    draft = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now=True)
     updated = models.DateTimeField(auto_now_add=True)
     hit_count_generic = GenericRelation(HitCount, object_id_field='object_pk', related_query_name='hit_count_generic_relation')
