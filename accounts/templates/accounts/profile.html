@@ -110,6 +110,8 @@
                   <span class="text-primary">{{tutorial.title}}</span><em class="ps-3 bi bi-eye">  {% get_hit_count for tutorial %}</em>
                 </a>
               </div>
+              {% if user.is_authenticated %}
+              {% if allow_edit %}
               <div class="col-4">
                 <a class="col-6 text-decoration-none me-2" href="{% url 'update-tutorial' tutorial.slug %}" type="button" title="Edit {{tutorial.title}}">
                   <em class="text-success bi bi-pencil"></em>
@@ -118,8 +120,13 @@
                   <em class="text-danger bi bi-trash"></em>
                 </a>
               </div>
+              {% endif %}
+              {% endif %}
               <hr />
-
+              {% empty %}
+              <dic class="col-8">
+                <em class="text-info">Nothing to dislay yet <em>
+              </div>
           {% endfor %}
             </div>
           </div>

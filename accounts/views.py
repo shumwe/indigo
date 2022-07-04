@@ -2,23 +2,38 @@ from django.shortcuts import render, redirect
 from accounts.forms import ProfileUpdateForm, UserUpdateForm
 from core.models import Tutorial
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
+
 User = get_user_model()
 
+@login_required
 def profile(request, username):
+    context = {}
     user = User.objects.get(username=username)
+    context['owner'] = user
     if user == request.user:
         is_owner = True
     else:
         is_owner = False
+    context['is_owner'] = is_owner
     tutorials = Tutorial.objects.filter(author=user)
+    context['tutorials'] = tutorials
+    if tutorials:
+        for tutorial in tutorials:
+            if tutorial.author == user:
+                allow_edit = True
+            else:
+                allow_edit = False
+        context['allow_edit'] = allow_edit
+
     latest_5 = tutorials[:5]
+    context['latest_5'] = latest_5
     get_viewset = tutorials.values('hit_count_generic__hits')
     total_views = sum(item['hit_count_generic__hits'] for item in get_viewset)
-    
-    context = {'tutorials': tutorials, 'owner': user, 'is_owner': is_owner,
-               'latest_5': latest_5, 'total_views': total_views}
+    context['total_views'] = total_views
     return render(request, 'accounts/profile.html', context)
 
+@login_required
 def profile_settings(request):
     if request.method == 'POST':
         user_update_form = UserUpdateForm(request.POST, request.FILES, instance=request.user)

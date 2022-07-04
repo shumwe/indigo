@@ -14,11 +14,11 @@
               <div class="col-md-8">
                 <div class="card-body">
                     <em class="bi bi-tags-fill"></em>
-                    {% for tag in article.tags.all %}
-                    <span class="badge bg-secondary me-2 mb-1 rounded-2"> {{tag.name}} </span>
-                    {% endfor %}
                     <a href="{{article.get_absolute_url}}" class="text-decoration-none">
                         <h5 class="card-title">{{article.title}}</h5>
+                        {% for tag in article.tags.all %}
+                        <span class="badge bg-secondary me-2 mb-1 rounded-2"> {{tag.name}} </span>
+                        {% endfor %}
                         <p class="card-text text-dark">{{article.content|safe|truncatewords:40}}</p>
                         <p class="card-text">
                             <small class="text-muted"> {{article.created|naturaltime}} </small></p>

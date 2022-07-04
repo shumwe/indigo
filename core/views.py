@@ -89,7 +89,6 @@ class UpdateTutorialView(LoginRequiredMixin, UpdateView):
 
 class DeleteTutorialView(LoginRequiredMixin, DeleteView):
     model = Tutorial
-    #success_url = reverse_lazy('profile', args=(self.request.user))
     template_name = 'core/delete_tutorial_confirm.html'
     
     def get_success_url(self, **kwargs):
