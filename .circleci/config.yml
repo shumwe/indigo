@@ -24,7 +24,7 @@ jobs:
                     python -m pip install --upgrade pip
                     pip install --trusted-host pypi.python.org --no-cache-dir -r requirements.txt
     
-    my-test:
+    my-tests:
         docker:
             - image: python:3.10.0-alpine
         steps:
@@ -43,6 +43,6 @@ workflows:
       - my-dependancies:
           requires: [hello-setup]
       - my-tests:
-          requires: [dependancies]
+          requires: [my-dependancies]
 
     
