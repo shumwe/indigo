@@ -11,7 +11,7 @@ jobs:
                 command: |
                     echo "Hello from Bravin"
     
-    dependancies:
+    my-dependancies:
         docker:
             - image: python:3.10.0-alpine
         attach_workspace:
@@ -24,7 +24,7 @@ jobs:
                     python -m pip install --upgrade pip
                     pip install --trusted-host pypi.python.org --no-cache-dir -r requirements.txt
     
-    test:
+    my-test:
         docker:
             - image: python:3.10.0-alpine
         attach_workspace:
@@ -37,12 +37,12 @@ jobs:
                     echo "TODO: write django tests"
 
 workflows:
-  progress:
+  django-flow:
     jobs:
       - hello-setup
-      - dependancies:
+      - my-dependancies:
           requires: [hello-setup]
-      - tests:
+      - my-tests:
           requires: [dependancies]
 
     
