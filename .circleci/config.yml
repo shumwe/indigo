@@ -14,10 +14,10 @@ jobs:
     my-dependancies:
         docker:
             - image: python:3.10.0-alpine
-        attach_workspace:
-            at: ~/
         steps:
             - checkout
+            - attach_workspace:
+                at: ~/
             - run:
                 name: Dependancies
                 command: |
@@ -27,10 +27,10 @@ jobs:
     my-test:
         docker:
             - image: python:3.10.0-alpine
-        attach_workspace:
-            at: ~/
         steps:
             - checkout
+            - attach_workspace:
+                at: ~/
             - run:
                 name: app tests
                 command: |
