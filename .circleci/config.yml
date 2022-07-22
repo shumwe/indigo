@@ -3,7 +3,7 @@ version: 2.1
 jobs:
     hello-setup:
         docker:
-            - image: python:3.7-alpine3.11
+            - image: python:3.10.0-alpine
         steps:
             - checkout
             - run:
@@ -11,25 +11,38 @@ jobs:
                 command: |
                     echo "Hello from Bravin"
     
-    install-dependancies:
+    dependancies:
         docker:
-            - image: python:3.7-alpine3.11
+            - image: python:3.10.0-alpine
+        attach_workspace:
+            at: ~/
         steps:
             - checkout
-            - restore_cache:
-                keys: [frontend-build]
             - run:
-                name: Build front-end
+                name: Dependancies
                 command: |
-                  pip install --trusted-host pypi.python.org --no-cache-dir -r requirements.txt
-                  echo "Done"
+                    python -m pip install --upgrade pip
+                    pip install --trusted-host pypi.python.org --no-cache-dir -r requirements.txt
+    
+    test:
+        docker:
+            - image: python:3.10.0-alpine
+        attach_workspace:
+            at: ~/
+        steps:
+            - checkout
+            - run:
+                name: app tests
+                command: |
+                    echo "TODO: write django tests"
 
 workflows:
   progress:
     jobs:
       - hello-setup
-      - install-dependancies:
+      - dependancies:
           requires: [hello-setup]
-
+      - tests:
+          requires: [dependancies]
 
     
